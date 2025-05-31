@@ -1,289 +1,379 @@
-/* --- ESTILOS GERAIS E TEMA ESCURO (BLACK & VIBRANT BLUE) --- */
+/* --- CSS CUSTOM PROPERTIES (VARIABLES) for Global Styling --- */
 :root {
-    /* Definição de cores como variáveis para fácil manutenção */
-    --cor-fundo-body: #0A0A10; /* Fundo muito profundo, quase preto com toque azulado */
-    --cor-fundo-container: #1A1A25; /* Um cinza muito escuro com um tom azulado para o painel */
-    --cor-texto-principal: #E0E0E0; /* Cinza muito claro */
-    --cor-titulo: #00E6FF; /* AZUL CIANO ELÉTRICO E VIBRANTE */
-    --cor-texto-secundario: #CCCCCC; /* Cinza um pouco mais claro para parágrafos */
-    --cor-azul-claro: #00AACC;
-    --cor-azul-padrao-botao: #007bff;
-    --cor-azul-escuro-botao: #0056b3;
-    --sombra-padrao: rgba(0, 0, 0, 0.6);
-    --sombra-hover: rgba(0, 0, 0, 0.8);
-    --sombra-cto-box: rgba(0, 0, 0, 0.7);
-    --sombra-cto-box-hover: rgba(0, 0, 0, 0.9);
-    --borda-input: #3A3A4A;
-    --fundo-input: #0D0D15;
-    --foco-input-borda: #00E6FF;
-    --foco-input-sombra: rgba(0, 230, 255, 0.3);
+    /* Colors */
+    --clr-dark-bg: #0C0C14; /* Deeper, rich dark background */
+    --clr-panel-bg: #1A1A2B; /* Slightly lighter panel background with blue tint */
+    --clr-text-light: #E8E8E8; /* Main light text color */
+    --clr-text-medium: #C0C0C0; /* Secondary text color */
+    --clr-accent-blue: #00E6FF; /* Vibrant Cyan Blue - main accent */
+    --clr-button-primary: #007BFF; /* Standard button blue */
+    --clr-button-hover: #0056B3; /* Darker blue on hover */
+    --clr-success: #4CAF50; /* Green for success messages */
+    --clr-error: #F44336; /* Red for error messages */
+    --clr-border-subtle: #3A3A4A; /* Input/element border */
+    --clr-input-bg: #0A0A1A; /* Even darker input background */
+    --clr-glow-light: rgba(0, 230, 255, 0.4); /* Light glow for focus/hover */
+    --clr-glow-strong: rgba(0, 230, 255, 0.6); /* Stronger glow */
+
+    /* Spacing */
+    --space-xxs: 4px;
+    --space-xs: 8px;
+    --space-s: 12px;
+    --space-m: 16px;
+    --space-l: 24px;
+    --space-xl: 32px;
+    --space-xxl: 48px;
+
+    /* Border Radius */
+    --radius-s: 8px;
+    --radius-m: 12px;
+    --radius-l: 16px;
+    --radius-xl: 24px;
+
+    /* Shadow presets */
+    --shadow-sm: 0 4px 10px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.7);
+
+    /* Transitions */
+    --transition-fast: 0.2s ease-out;
+    --transition-normal: 0.3s ease-in-out;
+    --transition-slow: 0.5s ease;
+}
+
+/* --- BASE STYLES --- */
+html {
+    scroll-behavior: smooth; /* Smooth scrolling for potential anchor links */
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Priorize Inter, fallback to Segoe UI */
     margin: 0;
-    padding: 0;
-    background-color: var(--cor-fundo-body);
-    color: var(--cor-texto-principal);
+    padding: var(--space-l); /* Generous padding on body */
+    background: linear-gradient(135deg, var(--clr-dark-bg) 0%, #151520 100%); /* Subtle gradient for depth */
+    color: var(--clr-text-light);
     line-height: 1.6;
     overflow-x: hidden;
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Alinha ao topo para evitar que o conteúdo fique flutuando no meio */
+    align-items: flex-start;
     min-height: 100vh;
-    padding: 20px; /* Padding geral para o body, será ajustado no mobile */
-    box-sizing: border-box; /* Garante que padding não adicione largura */
+    box-sizing: border-box;
+    position: relative; /* For potential background animations */
 }
 
-/* --- CONTÊINER PRINCIPAL DO PAINEL --- */
+/* Subtle background animation */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 10% 20%, rgba(0, 230, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(0, 230, 255, 0.05) 0%, transparent 50%);
+    opacity: 0.7;
+    animation: backgroundPulse 15s infinite alternate ease-in-out;
+    z-index: -1; /* Send to back */
+}
+
+@keyframes backgroundPulse {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.1); }
+}
+
+
+/* --- MAIN CONTAINER --- */
 .container {
-    background-color: var(--cor-fundo-container);
-    border-radius: 16px; /* Aumentado um pouco o arredondamento */
-    box-shadow: 0 10px 30px var(--sombra-padrao);
-    padding: 30px;
-    width: 95%; /* Um pouco mais de largura para usar melhor o espaço em mobile */
-    max-width: 500px; /* Largura máxima otimizada para formulários */
+    background-color: var(--clr-panel-bg);
+    border-radius: var(--radius-xl); /* Very rounded corners */
+    box-shadow: var(--shadow-lg); /* Deeper shadow */
+    padding: var(--space-xxl); /* More internal padding */
+    width: 95%;
+    max-width: 550px; /* Slightly wider max-width for better desktop feel */
     margin: 0 auto;
-    transition: all 0.3s ease-in-out; /* Transição mais rápida e suave */
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
     box-sizing: border-box;
-    display: flex; /* Adiciona flexbox para organizar o conteúdo interno */
-    flex-direction: column; /* Organiza os itens em coluna */
-    gap: 20px; /* Espaço entre os elementos filhos diretos (título, input-groups, botão) */
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-l); /* Consistent spacing between major blocks */
+    border: 1px solid rgba(0, 230, 255, 0.1); /* Subtle accent border */
+    overflow: hidden; /* Ensures inner elements don't overflow rounded corners */
 }
 
 .container:hover {
-    box-shadow: 0 15px 45px var(--sombra-hover);
-    transform: translateY(-5px); /* Elevação sutil, menos drástica */
+    transform: translateY(-8px); /* More pronounced lift */
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9); /* Even stronger shadow on hover */
 }
 
-/* --- ESTILOS PARA TÍTULOS --- */
+/* --- HEADINGS --- */
 h2 {
-    color: var(--cor-titulo);
+    color: var(--clr-accent-blue);
     text-align: center;
-    margin-bottom: 10px; /* Reduzido o espaço para um visual mais compacto */
-    text-shadow: 0 0 8px rgba(0, 230, 255, 0.6);
-    font-size: 1.8rem; /* Tamanho de fonte base com rem */
+    margin-bottom: var(--space-m);
+    text-shadow: 0 0 12px var(--clr-glow-strong); /* Stronger neon glow */
+    font-size: clamp(1.8rem, 4vw + 1rem, 2.5rem); /* Fluid typography */
     line-height: 1.2;
-    margin-top: 0; /* Remove margem superior padrão */
+    margin-top: 0;
+    letter-spacing: 0.5px;
 }
 
-/* --- ESTILOS PARA PARÁGRAFOS E TEXTOS GERAIS --- */
+/* --- GENERAL TEXT --- */
 p {
-    color: var(--cor-texto-secundario);
-    margin-bottom: 15px;
-    font-size: 0.95rem; /* Ajuste para melhor legibilidade */
+    color: var(--clr-text-medium);
+    margin-bottom: var(--space-s);
+    font-size: 0.95rem;
 }
 
-/* --- SEÇÃO DE SUGESTÃO DE CTO (CAIXA AZUL) --- */
+/* --- CTO SUGGESTION BOX (ACCENT PANEL) --- */
 .cto-suggestion-box {
-    background: linear-gradient(135deg, var(--cor-azul-claro) 0%, #007bff 100%);
-    border-radius: 18px; /* Mais arredondado */
-    box-shadow: 0 12px 35px var(--sombra-cto-box); /* Sombra mais refinada */
-    padding: 25px;
-    margin-top: 25px; /* Espaço ajustado */
+    background: linear-gradient(135deg, #00AACC 0%, #007BFF 100%);
+    border-radius: var(--radius-xl); /* Matches container for consistency */
+    box-shadow: 0 15px 40px var(--sombra-cto-box);
+    padding: var(--space-xl);
+    margin-top: var(--space-xl);
     text-align: center;
     color: #ffffff;
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    border: 2px solid var(--cor-titulo);
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+    border: 2px solid var(--clr-accent-blue);
     position: relative;
     overflow: hidden;
-    /* Ajustes para responsividade */
-    width: calc(100% - 20px); /* Ocupa quase 100% da largura do pai */
-    max-width: 400px; /* Mantém um limite elegante */
+    width: calc(100% - var(--space-xl) * 2); /* Adjusts for padding */
+    max-width: 420px; /* Optimal width for content */
     margin-left: auto;
     margin-right: auto;
     box-sizing: border-box;
+    z-index: 1; /* Ensure it's above body pseudo-element */
+}
+
+/* Subtle inner glow effect on the box */
+.cto-suggestion-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.1), inset 0 0 30px rgba(0, 230, 255, 0.1);
+    pointer-events: none; /* Allows clicks to pass through */
+    transition: opacity var(--transition-normal);
+    opacity: 0;
+}
+
+.cto-suggestion-box:hover::before {
+    opacity: 1;
 }
 
 .cto-suggestion-box:hover {
-    transform: translateY(-5px) scale(1.01); /* Elevação e zoom mais sutis */
-    box-shadow: 0 18px 45px var(--sombra-cto-box-hover);
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.95);
 }
 
 .suggestion-intro-message, .suggestion-outro-message {
-    font-size: 1rem; /* Ajuste de tamanho */
-    margin-bottom: 10px;
-    font-weight: 400; /* Peso normal */
-    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.05rem; /* Slightly larger text */
+    margin-bottom: var(--space-s);
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.95);
 }
 
 .suggested-number-display {
-    font-size: 3.5rem; /* NÚMERO GRANDE, mas ajustado para mobile */
-    font-weight: 800; /* Negrito */
+    font-size: clamp(3rem, 8vw + 1rem, 4.5rem); /* More fluid scaling */
+    font-weight: 900;
     color: #FFFFFF;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(0, 230, 255, 0.6);
-    margin: 15px 0;
-    letter-spacing: 1px;
-    animation: pulse 2s infinite ease-in-out;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px var(--clr-glow-strong); /* Stronger glow */
+    margin: var(--space-l) 0;
+    letter-spacing: 1.5px;
+    animation: pulse 2.5s infinite ease-in-out; /* Slightly slower pulse */
 }
 
 @keyframes pulse {
     0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.03); opacity: 0.98; } /* Pulsar mais suave */
+    50% { transform: scale(1.04); opacity: 0.97; } /* More subtle pulse */
     100% { transform: scale(1); opacity: 1; }
 }
 
 .cto-suggestion-box .cto-details {
-    background-color: rgba(0, 0, 0, 0.25); /* Fundo um pouco mais escuro */
-    padding: 15px;
-    border-radius: 10px; /* Cantos arredondados */
-    margin-top: 20px;
-    color: rgba(255, 255, 255, 0.85);
+    background-color: rgba(0, 0, 0, 0.35); /* Darker background for more contrast */
+    padding: var(--space-m);
+    border-radius: var(--radius-m);
+    margin-top: var(--space-xl);
+    color: rgba(255, 255, 255, 0.9);
     font-size: 0.9rem;
-    line-height: 1.5; /* Melhor espaçamento entre linhas */
+    line-height: 1.5;
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border for definition */
 }
 
 .cto-suggestion-box .cto-details p {
-    margin-bottom: 5px;
+    margin-bottom: var(--space-xs);
     color: inherit;
 }
 
-/* --- ESTILOS PARA MENSAGEM DE FEEDBACK (NOVA DIV) --- */
+/* --- FEEDBACK MESSAGE --- */
 #feedbackMessage {
-    margin-top: 15px;
-    padding: 10px 15px; /* Padding lateral maior */
-    border-radius: 8px; /* Arredondado */
+    margin-top: var(--space-l);
+    padding: var(--space-s) var(--space-m);
+    border-radius: var(--radius-s);
     font-weight: bold;
     display: none;
-    transition: opacity 0.3s ease;
-    text-align: center; /* Centraliza o texto da mensagem */
+    transition: opacity var(--transition-normal);
+    text-align: center;
     font-size: 0.9rem;
+    background-color: rgba(0, 0, 0, 0.3); /* Subtle background */
 }
 
 
-/* --- BOTÕES MODERNOS E VÍVIDOS --- */
+/* --- BUTTONS --- */
 button {
-    background-color: var(--cor-azul-padrao-botao);
+    background: linear-gradient(45deg, var(--clr-button-primary) 0%, #00BFFF 100%); /* Gradient button */
     color: #ffffff;
     border: none;
-    border-radius: 10px; /* Mais arredondado */
-    padding: 15px 30px; /* Ajuste do padding */
-    font-size: 1.1rem; /* Tamanho do texto ajustado */
+    border-radius: var(--radius-m); /* Slightly less rounded than container */
+    padding: var(--space-m) var(--space-l);
+    font-size: 1.15rem; /* Slightly larger text */
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    transition: all var(--transition-normal);
     outline: none;
     display: block;
-    width: 100%; /* Botão ocupa a largura total do container */
-    max-width: 300px; /* Mas com um limite para telas maiores */
-    margin: 25px auto 10px auto; /* Centraliza o botão */
+    width: 100%;
+    max-width: 350px; /* Better max-width */
+    margin: var(--space-xl) auto var(--space-s) auto;
     box-sizing: border-box;
+    box-shadow: var(--shadow-sm); /* Subtle shadow */
+    position: relative; /* For glow effect */
+    overflow: hidden;
+}
+
+/* Button hover glow effect */
+button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3); /* White glow */
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width var(--transition-normal), height var(--transition-normal);
+    opacity: 0;
+}
+
+button:hover::before {
+    width: 300%;
+    height: 300%;
+    opacity: 1;
 }
 
 button:hover {
-    background-color: var(--cor-azul-escuro-botao);
-    transform: translateY(-2px); /* Elevação mais suave */
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4); /* Sombra mais sutil */
+    background: linear-gradient(45deg, var(--clr-button-hover) 0%, #0099D4 100%); /* Darker gradient on hover */
+    transform: translateY(-3px); /* Subtle lift */
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.6); /* More pronounced shadow */
 }
 
 button:active {
     transform: translateY(0);
-    box-shadow: none;
+    box-shadow: var(--shadow-sm);
 }
 
-/* --- ESTILOS PARA LINKS (se houver no futuro) --- */
-a {
-    color: var(--cor-titulo);
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-a:hover {
-    color: var(--cor-azul-claro);
-}
-
-/* --- CAMPOS DE INPUT E SELECTS (ALINHADOS E CONSISTENTES) --- */
+/* --- INPUTS AND SELECTS --- */
 .input-group {
-    margin-bottom: 18px; /* Espaço entre os grupos de input */
-    text-align: left; /* Alinha labels à esquerda */
-    width: 100%; /* Ocupa a largura total do container */
+    margin-bottom: var(--space-l); /* Consistent spacing */
+    text-align: left;
+    width: 100%;
     box-sizing: border-box;
 }
 
-/* Estilo para Labels */
 label {
     display: block;
-    margin-bottom: 8px; /* Espaço abaixo da label */
+    margin-bottom: var(--space-xs);
     font-weight: bold;
-    color: var(--cor-texto-secundario);
-    text-align: left; /* Alinha o texto do label à esquerda */
-    font-size: 0.95rem; /* Ajuste para melhor legibilidade */
-    padding-left: 5px; /* Pequeno recuo para alinhar com o input */
+    color: var(--clr-text-medium);
+    text-align: left;
+    font-size: 0.95rem;
+    padding-left: var(--space-xs); /* Aligns nicely with input border */
+    letter-spacing: 0.2px;
 }
 
 input[type="text"],
-input[type="date"], /* Mantido type date */
+input[type="date"],
 select {
-    width: 100%; /* Ocupa 100% da largura disponível */
+    width: 100%;
     box-sizing: border-box;
-    padding: 15px; /* Mais padding para um visual mais "cheio" e fácil de tocar */
-    border: 1px solid var(--borda-input);
-    border-radius: 10px; /* Mais arredondado */
-    background-color: var(--fundo-input);
-    color: var(--cor-texto-principal);
-    font-size: 1rem; /* Tamanho de fonte ajustado */
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    padding: var(--space-m) var(--space-l); /* Increased padding for better touch target */
+    border: 1px solid var(--clr-border-subtle);
+    border-radius: var(--radius-m); /* Consistent with buttons */
+    background-color: var(--clr-input-bg);
+    color: var(--clr-text-light);
+    font-size: 1rem;
+    transition: border-color var(--transition-normal), box-shadow var(--transition-normal);
     display: block;
-    margin: 0; /* Remove margem padrão, o input-group controla */
+    margin: 0;
+    appearance: none; /* For selects to remove default browser styling */
+    -webkit-appearance: none;
+    -moz-appearance: none;
 }
 
 input[type="text"]:focus,
 input[type="date"]:focus,
 select:focus {
     border-color: var(--foco-input-borda);
-    box-shadow: 0 0 0 3px var(--foco-input-sombra); /* Brilho azul mais suave */
+    box-shadow: 0 0 0 4px var(--foco-input-sombra); /* Clear focus glow */
     outline: none;
 }
 
-/* Ajustes para selects que podem parecer pequenos (Seta personalizada mais visível) */
+/* Custom arrow for selects */
 select {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    /* Seta personalizada branca */
-    background-image: url('data:image/svg+xml;utf8,<svg fill="%23E0E0E0" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23C0C0C0" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
     background-repeat: no-repeat;
-    background-position: right 12px center; /* Seta um pouco mais para dentro */
-    background-size: 20px; /* Seta um pouco menor */
+    background-position: right var(--space-m) center; /* Position arrow with variable */
+    background-size: 20px;
     cursor: pointer;
 }
 
-/* --- MEDIA QUERIES PARA RESPONSIVIDADE (MOBILE FIRST) --- */
-@media (max-width: 500px) { /* Ponto de quebra menor para celulares */
+/* Placeholder styling */
+::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.95rem;
+}
+
+/* --- MEDIA QUERIES for RESPONSIVENESS --- */
+@media (max-width: 768px) {
     body {
-        padding: 15px 10px; /* Padding no body ajustado para telas muito pequenas */
+        padding: var(--space-xl) var(--space-m); /* Adjust padding for tablets/larger phones */
+        align-items: center; /* Center vertically on smaller screens */
     }
 
     .container {
-        padding: 20px; /* Padding interno do container para celulares */
-        border-radius: 12px;
-        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+        padding: var(--space-xl);
+        border-radius: var(--radius-l);
+        gap: var(--space-l);
     }
 
     h2 {
-        font-size: 1.6rem; /* Título um pouco menor */
-        margin-bottom: 15px;
+        font-size: clamp(1.6rem, 5vw + 0.5rem, 2rem); /* Slightly smaller heading */
+        margin-bottom: var(--space-l);
     }
 
     .cto-suggestion-box {
-        padding: 20px;
-        margin-top: 20px;
-        border-radius: 15px;
+        padding: var(--space-l);
+        margin-top: var(--space-l);
     }
 
     .suggested-number-display {
-        font-size: 3rem; /* Número ainda menor em telas muito pequenas */
-        margin: 10px 0;
+        font-size: clamp(2.5rem, 8vw, 3.5rem); /* Scales down on smaller phones */
+        margin: var(--space-m) 0;
     }
 
     .suggestion-intro-message, .suggestion-outro-message {
-        font-size: 0.9rem;
+        font-size: 0.95rem;
     }
 
     button {
-        padding: 12px 20px;
+        padding: var(--space-s) var(--space-m);
         font-size: 1rem;
-        margin-top: 20px;
+        max-width: none; /* Allow button to take full width of container */
     }
 
     label {
@@ -293,7 +383,32 @@ select {
     input[type="text"],
     input[type="date"],
     select {
-        padding: 12px;
+        padding: var(--space-s) var(--space-m);
         font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) { /* Even smaller phones */
+    body {
+        padding: var(--space-l) var(--space-s); /* Minimal padding on very small screens */
+    }
+
+    .container {
+        padding: var(--space-l);
+        border-radius: var(--radius-m);
+        gap: var(--space-m);
+    }
+
+    h2 {
+        font-size: clamp(1.4rem, 6vw + 0.2rem, 1.8rem);
+    }
+
+    .cto-suggestion-box {
+        padding: var(--space-m);
+        margin-top: var(--space-m);
+    }
+
+    .suggested-number-display {
+        font-size: clamp(2rem, 10vw, 3rem);
     }
 }
