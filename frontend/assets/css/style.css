@@ -1,214 +1,238 @@
 /* --- ESTILOS GERAIS E TEMA ESCURO (BLACK & VIBRANT BLUE) --- */
+:root {
+    /* Definição de cores como variáveis para fácil manutenção */
+    --cor-fundo-body: #0A0A10; /* Fundo muito profundo, quase preto com toque azulado */
+    --cor-fundo-container: #1A1A25; /* Um cinza muito escuro com um tom azulado para o painel */
+    --cor-texto-principal: #E0E0E0; /* Cinza muito claro */
+    --cor-titulo: #00E6FF; /* AZUL CIANO ELÉTRICO E VIBRANTE */
+    --cor-texto-secundario: #CCCCCC; /* Cinza um pouco mais claro para parágrafos */
+    --cor-azul-claro: #00AACC;
+    --cor-azul-padrao-botao: #007bff;
+    --cor-azul-escuro-botao: #0056b3;
+    --sombra-padrao: rgba(0, 0, 0, 0.6);
+    --sombra-hover: rgba(0, 0, 0, 0.8);
+    --sombra-cto-box: rgba(0, 0, 0, 0.7);
+    --sombra-cto-box-hover: rgba(0, 0, 0, 0.9);
+    --borda-input: #3A3A4A;
+    --fundo-input: #0D0D15;
+    --foco-input-borda: #00E6FF;
+    --foco-input-sombra: rgba(0, 230, 255, 0.3);
+}
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fonte moderna e legível */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #0A0A10; /* Fundo muito profundo, quase preto com toque azulado */
-    color: #E0E0E0; /* Cor do texto principal: um cinza muito claro */
+    background-color: var(--cor-fundo-body);
+    color: var(--cor-texto-principal);
     line-height: 1.6;
-    overflow-x: hidden; /* Previne rolagem horizontal indesejada */
-    display: flex; /* Para centralizar o conteúdo */
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: flex-start; /* Alinha ao topo verticalmente */
-    min-height: 100vh; /* Garante que o body ocupe a altura total da tela */
-    padding-top: 20px; /* Um pouco de padding no topo para o painel */
-    padding-bottom: 20px; /* Um pouco de padding na base */
+    overflow-x: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Alinha ao topo para evitar que o conteúdo fique flutuando no meio */
+    min-height: 100vh;
+    padding: 20px; /* Padding geral para o body, será ajustado no mobile */
+    box-sizing: border-box; /* Garante que padding não adicione largura */
 }
 
-/* --- CONTÊINER PRINCIPAL DO PAINEL (Onde o conteúdo fica) --- */
-.container { /* Usaremos apenas 'container' como classe principal */
-    background-color: #1A1A25; /* Um cinza muito escuro com um tom azulado para o painel */
-    border-radius: 12px; /* Cantos bem arredondados */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); /* Sombra forte para profundidade */
-    padding: 30px; /* Mais padding interno */
-    width: 90%; /* Largura padrão para responsividade */
-    max-width: 600px; /* Limita a largura máxima em telas maiores */
-    margin: 0 auto; /* Centraliza o contêiner */
-    transition: all 0.4s ease-in-out; /* Transição suave para efeitos de hover */
-    box-sizing: border-box; /* Inclui padding na largura total */
+/* --- CONTÊINER PRINCIPAL DO PAINEL --- */
+.container {
+    background-color: var(--cor-fundo-container);
+    border-radius: 16px; /* Aumentado um pouco o arredondamento */
+    box-shadow: 0 10px 30px var(--sombra-padrao);
+    padding: 30px;
+    width: 95%; /* Um pouco mais de largura para usar melhor o espaço em mobile */
+    max-width: 500px; /* Largura máxima otimizada para formulários */
+    margin: 0 auto;
+    transition: all 0.3s ease-in-out; /* Transição mais rápida e suave */
+    box-sizing: border-box;
+    display: flex; /* Adiciona flexbox para organizar o conteúdo interno */
+    flex-direction: column; /* Organiza os itens em coluna */
+    gap: 20px; /* Espaço entre os elementos filhos diretos (título, input-groups, botão) */
 }
 
-/* Efeito de elevação ao passar o mouse em containers */
 .container:hover {
-    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.8); /* Sombra ainda mais pronunciada no hover */
-    transform: translateY(-10px); /* Elevação mais perceptível */
+    box-shadow: 0 15px 45px var(--sombra-hover);
+    transform: translateY(-5px); /* Elevação sutil, menos drástica */
 }
 
 /* --- ESTILOS PARA TÍTULOS --- */
-h1, h2, h3, h4, h5, h6 {
-    color: #00E6FF; /* AZUL CIANO ELÉTRICO E VIBRANTE para títulos */
+h2 {
+    color: var(--cor-titulo);
     text-align: center;
-    margin-bottom: 30px; /* Mais espaço abaixo do título */
-    text-shadow: 0 0 8px rgba(0, 230, 255, 0.6); /* Brilho neon sutil no texto */
+    margin-bottom: 10px; /* Reduzido o espaço para um visual mais compacto */
+    text-shadow: 0 0 8px rgba(0, 230, 255, 0.6);
+    font-size: 1.8rem; /* Tamanho de fonte base com rem */
+    line-height: 1.2;
+    margin-top: 0; /* Remove margem superior padrão */
 }
 
 /* --- ESTILOS PARA PARÁGRAFOS E TEXTOS GERAIS --- */
 p {
-    color: #CCCCCC; /* Um cinza um pouco mais claro para o corpo do texto */
+    color: var(--cor-texto-secundario);
     margin-bottom: 15px;
+    font-size: 0.95rem; /* Ajuste para melhor legibilidade */
 }
 
-/* --- SEÇÃO DE SUGESTÃO DE CTO (NOVO ESTILO) --- */
+/* --- SEÇÃO DE SUGESTÃO DE CTO (CAIXA AZUL) --- */
 .cto-suggestion-box {
-    background: linear-gradient(135deg, #00AACC 0%, #007bff 100%); /* Gradiente azul para 3D */
-    border-radius: 15px; /* Cantos bem arredondados */
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7); /* Sombra 3D profunda */
-    padding: 25px; /* Ajuste: Reduzido um pouco o padding */
-    margin-top: 40px; /* Espaço maior acima */
+    background: linear-gradient(135deg, var(--cor-azul-claro) 0%, #007bff 100%);
+    border-radius: 18px; /* Mais arredondado */
+    box-shadow: 0 12px 35px var(--sombra-cto-box); /* Sombra mais refinada */
+    padding: 25px;
+    margin-top: 25px; /* Espaço ajustado */
     text-align: center;
-    color: #ffffff; /* Texto branco para contraste total */
+    color: #ffffff;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    border: 2px solid #00E6FF; /* Borda fina vibrante */
-    position: relative; /* Para efeitos futuros */
-    overflow: hidden; /* Para garantir que o brilho não vaze */
-    max-width: 450px; /* Ajuste: Reduz a largura máxima do quadro azul */
-    margin-left: auto; /* Centraliza o bloco */
-    margin-right: auto; /* Centraliza o bloco */
+    border: 2px solid var(--cor-titulo);
+    position: relative;
+    overflow: hidden;
+    /* Ajustes para responsividade */
+    width: calc(100% - 20px); /* Ocupa quase 100% da largura do pai */
+    max-width: 400px; /* Mantém um limite elegante */
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
 }
 
 .cto-suggestion-box:hover {
-    transform: translateY(-8px) scale(1.02); /* Leve elevação e zoom no hover */
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9); /* Sombra ainda mais intensa */
+    transform: translateY(-5px) scale(1.01); /* Elevação e zoom mais sutis */
+    box-shadow: 0 18px 45px var(--sombra-cto-box-hover);
 }
 
 .suggestion-intro-message, .suggestion-outro-message {
-    font-size: 1.2em;
-    margin-bottom: 15px;
-    font-weight: 300; /* Texto mais leve */
-    color: rgba(255, 255, 255, 0.9); /* Branco translúcido */
+    font-size: 1rem; /* Ajuste de tamanho */
+    margin-bottom: 10px;
+    font-weight: 400; /* Peso normal */
+    color: rgba(255, 255, 255, 0.9);
 }
 
 .suggested-number-display {
-    font-size: 4em; /* NÚMERO GIGANTE! */
-    font-weight: 900; /* Super negrito */
-    color: #FFFFFF; /* Branco puro para o número */
-    text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 25px rgba(0, 230, 255, 0.7); /* Brilho branco e azul */
-    margin: 20px 0; /* Espaçamento ao redor do número */
-    letter-spacing: 2px; /* Espaçamento entre letras */
-    animation: pulse 2s infinite ease-in-out; /* Animação de pulsar */
+    font-size: 3.5rem; /* NÚMERO GRANDE, mas ajustado para mobile */
+    font-weight: 800; /* Negrito */
+    color: #FFFFFF;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(0, 230, 255, 0.6);
+    margin: 15px 0;
+    letter-spacing: 1px;
+    animation: pulse 2s infinite ease-in-out;
 }
 
-/* Animação de Pulsar para o Número */
 @keyframes pulse {
     0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.05); opacity: 0.95; }
+    50% { transform: scale(1.03); opacity: 0.98; } /* Pulsar mais suave */
     100% { transform: scale(1); opacity: 1; }
 }
 
-.suggestion-outro-message {
-    margin-top: 15px;
-    font-weight: bold;
-    color: #FFFFFF; /* Branco puro */
-}
-
-/* Estilos para os detalhes pequenos dentro da suggested-box (se você mantiver) */
 .cto-suggestion-box .cto-details {
-    background-color: rgba(0, 0, 0, 0.2); /* Fundo sutil para os detalhes */
+    background-color: rgba(0, 0, 0, 0.25); /* Fundo um pouco mais escuro */
     padding: 15px;
-    border-radius: 8px;
-    margin-top: 25px;
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 0.95em;
+    border-radius: 10px; /* Cantos arredondados */
+    margin-top: 20px;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.9rem;
+    line-height: 1.5; /* Melhor espaçamento entre linhas */
 }
 
 .cto-suggestion-box .cto-details p {
     margin-bottom: 5px;
-    color: inherit; /* Herda a cor do pai */
+    color: inherit;
 }
 
 /* --- ESTILOS PARA MENSAGEM DE FEEDBACK (NOVA DIV) --- */
 #feedbackMessage {
-    margin-top: 20px;
-    padding: 10px;
-    border-radius: 5px;
+    margin-top: 15px;
+    padding: 10px 15px; /* Padding lateral maior */
+    border-radius: 8px; /* Arredondado */
     font-weight: bold;
-    display: none; /* Escondido por padrão, JavaScript o mostra */
+    display: none;
     transition: opacity 0.3s ease;
+    text-align: center; /* Centraliza o texto da mensagem */
+    font-size: 0.9rem;
 }
 
 
 /* --- BOTÕES MODERNOS E VÍVIDOS --- */
 button {
-    background-color: #007bff; /* Azul padrão, mas vibrante */
-    color: #ffffff; /* Texto branco */
+    background-color: var(--cor-azul-padrao-botao);
+    color: #ffffff;
     border: none;
-    border-radius: 8px; /* Cantos arredondados */
-    padding: 14px 30px; /* Mais padding para um visual mais "cheio" */
-    font-size: 18px; /* Texto um pouco maior */
+    border-radius: 10px; /* Mais arredondado */
+    padding: 15px 30px; /* Ajuste do padding */
+    font-size: 1.1rem; /* Tamanho do texto ajustado */
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
     outline: none;
-    display: block; /* Ocupa a própria linha */
-    margin: 25px auto 10px auto; /* Centraliza o botão e adiciona espaçamento */
-    min-width: 150px; /* Largura mínima para botões */
+    display: block;
+    width: 100%; /* Botão ocupa a largura total do container */
+    max-width: 300px; /* Mas com um limite para telas maiores */
+    margin: 25px auto 10px auto; /* Centraliza o botão */
+    box-sizing: border-box;
 }
 
 button:hover {
-    background-color: #0056b3; /* Azul mais escuro no hover */
-    transform: translateY(-4px); /* Elevação no hover */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); /* Sombra no hover */
+    background-color: var(--cor-azul-escuro-botao);
+    transform: translateY(-2px); /* Elevação mais suave */
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4); /* Sombra mais sutil */
 }
 
 button:active {
-    transform: translateY(0); /* Retorna na ativação */
+    transform: translateY(0);
     box-shadow: none;
 }
 
-/* --- ESTILOS PARA LINKS --- */
+/* --- ESTILOS PARA LINKS (se houver no futuro) --- */
 a {
-    color: #00E6FF; /* Links em azul vibrante */
+    color: var(--cor-titulo);
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 a:hover {
-    color: #00AACC; /* Azul um pouco mais escuro no hover */
+    color: var(--cor-azul-claro);
 }
 
 /* --- CAMPOS DE INPUT E SELECTS (ALINHADOS E CONSISTENTES) --- */
 .input-group {
-    margin-bottom: 20px; /* Espaço entre os grupos de input */
-    text-align: center; /* Centraliza labels e inputs */
-}
-
-input[type="text"],
-input[type="number"],
-input[type="date"],
-select,
-textarea {
-    width: calc(100% - 28px); /* 100% da largura do pai, menos padding/bordas */
-    box-sizing: border-box; /* Inclui padding e borda na largura total */
-    padding: 14px; /* Mais padding para um toque moderno */
-    border: 1px solid #3A3A4A; /* Borda mais discreta */
-    border-radius: 8px; /* Cantos arredondados */
-    background-color: #0D0D15; /* Fundo do input ainda mais escuro para contraste */
-    color: #E0E0E0; /* Texto do input claro */
-    font-size: 17px;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    display: block; /* Garante que ocupem a própria linha */
-    margin-left: auto; /* Centraliza o input dentro do container */
-    margin-right: auto; /* Centraliza o input dentro do container */
-}
-
-input[type="text"]:focus,
-input[type="number"]:focus,
-input[type="date"]:focus,
-select:focus,
-textarea:focus {
-    border-color: #00E6FF; /* Borda azul vibrante ao focar */
-    box-shadow: 0 0 0 4px rgba(0, 230, 255, 0.3); /* Brilho azul sutil ao focar */
-    outline: none;
+    margin-bottom: 18px; /* Espaço entre os grupos de input */
+    text-align: left; /* Alinha labels à esquerda */
+    width: 100%; /* Ocupa a largura total do container */
+    box-sizing: border-box;
 }
 
 /* Estilo para Labels */
 label {
     display: block;
-    margin-bottom: 10px; /* Espaço abaixo da label */
+    margin-bottom: 8px; /* Espaço abaixo da label */
     font-weight: bold;
-    color: #CCCCCC; /* Cor clara para labels */
-    text-align: center; /* Centraliza o texto do label acima do input */
-    font-size: 1.1em;
+    color: var(--cor-texto-secundario);
+    text-align: left; /* Alinha o texto do label à esquerda */
+    font-size: 0.95rem; /* Ajuste para melhor legibilidade */
+    padding-left: 5px; /* Pequeno recuo para alinhar com o input */
+}
+
+input[type="text"],
+input[type="date"], /* Mantido type date */
+select {
+    width: 100%; /* Ocupa 100% da largura disponível */
+    box-sizing: border-box;
+    padding: 15px; /* Mais padding para um visual mais "cheio" e fácil de tocar */
+    border: 1px solid var(--borda-input);
+    border-radius: 10px; /* Mais arredondado */
+    background-color: var(--fundo-input);
+    color: var(--cor-texto-principal);
+    font-size: 1rem; /* Tamanho de fonte ajustado */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    display: block;
+    margin: 0; /* Remove margem padrão, o input-group controla */
+}
+
+input[type="text"]:focus,
+input[type="date"]:focus,
+select:focus {
+    border-color: var(--foco-input-borda);
+    box-shadow: 0 0 0 3px var(--foco-input-sombra); /* Brilho azul mais suave */
+    outline: none;
 }
 
 /* Ajustes para selects que podem parecer pequenos (Seta personalizada mais visível) */
@@ -216,66 +240,60 @@ select {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    background-image: url('data:image/svg+xml;utf8,<svg fill="%23E0E0E0" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>'); /* Seta personalizada branca */
+    /* Seta personalizada branca */
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23E0E0E0" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
     background-repeat: no-repeat;
-    background-position: right 15px center; /* Seta mais para dentro */
-    background-size: 24px; /* Seta um pouco maior */
+    background-position: right 12px center; /* Seta um pouco mais para dentro */
+    background-size: 20px; /* Seta um pouco menor */
     cursor: pointer;
 }
 
 /* --- MEDIA QUERIES PARA RESPONSIVIDADE (MOBILE FIRST) --- */
-@media (max-width: 768px) {
+@media (max-width: 500px) { /* Ponto de quebra menor para celulares */
     body {
-        padding: 10px; /* Menos padding lateral no body */
-        align-items: flex-start; /* Alinha o conteúdo mais para o topo em telas menores */
+        padding: 15px 10px; /* Padding no body ajustado para telas muito pequenas */
     }
 
     .container {
-        padding: 20px; /* Menos padding interno */
-        border-radius: 10px; /* Cantos um pouco menos arredondados para celular */
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); /* Sombra mais suave */
+        padding: 20px; /* Padding interno do container para celulares */
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
     }
 
-    h1, h2, h3 {
-        font-size: 1.8em; /* Títulos um pouco menores */
-        margin-bottom: 20px;
-    }
-
-    button {
-        padding: 12px 20px;
-        font-size: 16px;
-        width: 100%; /* Botões full width no celular */
-        margin-right: 0; /* Remove margem lateral entre botões */
-    }
-
-    /* Campos de input full width no celular */
-    input[type="text"],
-    input[type="number"],
-    input[type="date"],
-    select,
-    textarea {
-        width: calc(100% - 24px); /* Full width ajustado */
-        padding: 12px;
-        font-size: 16px;
-    }
-
-    label {
-        font-size: 1em;
+    h2 {
+        font-size: 1.6rem; /* Título um pouco menor */
+        margin-bottom: 15px;
     }
 
     .cto-suggestion-box {
         padding: 20px;
-        margin-top: 30px;
-        border-radius: 12px;
-        max-width: 90%; /* Ajuste para preencher a largura no mobile */
+        margin-top: 20px;
+        border-radius: 15px;
     }
 
     .suggested-number-display {
-        font-size: 3em; /* Número menor no celular */
-        margin: 15px 0;
+        font-size: 3rem; /* Número ainda menor em telas muito pequenas */
+        margin: 10px 0;
     }
 
     .suggestion-intro-message, .suggestion-outro-message {
-        font-size: 1.1em;
+        font-size: 0.9rem;
+    }
+
+    button {
+        padding: 12px 20px;
+        font-size: 1rem;
+        margin-top: 20px;
+    }
+
+    label {
+        font-size: 0.9rem;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    select {
+        padding: 12px;
+        font-size: 0.95rem;
     }
 }
