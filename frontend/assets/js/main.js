@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     // Carregar cidades
-    if (window.location.pathname.endsWith("index.html")) {
+    if (window.location.pathname.endsWith("index.html") || window.location.pathname === "/") {
         const selectCidade = document.getElementById('nome_cidade');
         try {
             const cidades = await getCidades();
