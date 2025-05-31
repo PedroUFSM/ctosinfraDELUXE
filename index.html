@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Numeração de CTO - Infraestrutura CN</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Controle de Numeração de CTO - Infraestrutura CN</h2>
+
+        <div class="input-group">
+            <label for="numero">Número</label>
+            <input type="text" id="numero" placeholder="AUTOMÁTICO" readonly>
+        </div>
+
+        <div class="input-group">
+            <label for="descricao_tecnico">Feito por:</label>
+            <select id="descricao_tecnico">
+                <option value="">Selecione um técnico</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label for="data">Data:</label>
+            <input type="date" id="data">
+        </div>
+
+        <div class="input-group">
+            <label for="nome_cidade">Cidade:</label>
+            <select id="nome_cidade">
+                <option value="">Selecione uma cidade</option>
+            </select>
+        </div>
+
+        <button class="btn" id="btnSalvarCTO">Salvar</button>
+
+        <div id="feedbackMessage"></div>
+
+        <div class="cto-suggestion-box">
+            <p class="suggestion-intro-message">Com base na sua consulta, um momento...</p>
+            <div class="suggested-number-display">
+                <span id="displayNumeroCtoGrande">---</span>
+            </div>
+            <p class="suggestion-outro-message">Você pode utilizar este número!</p>
+
+            <div class="cto-details">
+                <p>Número: <span id="displayNumeroCtoPequeno">Nenhum</span></p>
+                <p>Feito por: <span id="displayTecnicoCto">Nenhum</span></p>
+                <p>Data: <span id="displayDataCto">Nenhuma</span></p>
+                <p>Cidade: <span id="displayCidadeCto">Nenhuma</span></p>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="./assets/js/main.js"></script>
+</body>
+</html>
