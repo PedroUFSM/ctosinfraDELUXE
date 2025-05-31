@@ -2,41 +2,44 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 async function main() {
-  // Deletar dados existentes para evitar duplicatas em cada deploy
-  await prisma.cidade.deleteMany({});
-  await prisma.tecnico.deleteMany({});
-  await prisma.cTO.deleteMany({}); // Se tiver CTO, também deleta
+  console.log('Iniciando o script de seed...');
+
+  // REMOVEMOS O BLOCO DE DELEÇÃO AQUI, pois está causando problema.
+  // O "skipDuplicates: true" nos "createMany" abaixo vai evitar duplicatas.
 
   // Inserir cidades
-  const cidade1 = await prisma.cidade.create({
-    data: { nome: 'São Paulo' },
+  const cidades = await prisma.cidade.createMany({
+    data: [
+      { nome: 'São Paulo' },
+      { nome: 'Rio de Janeiro' },
+      { nome: 'Belo Horizonte' },
+      { nome: 'Curitiba' },
+      { nome: 'Porto Alegre' },
+      { nome: 'Florianópolis' }
+    ],
+    skipDuplicates: true, // Garante que não duplica se já existirem
   });
-  const cidade2 = await prisma.cidade.create({
-    data: { nome: 'Rio de Janeiro' },
-  });
-  const cidade3 = await prisma.cidade.create({
-    data: { nome: 'Belo Horizonte' },
-  });
-
-  console.log(`Cidades criadas: ${cidade1.nome}, ${cidade2.nome}, ${cidade3.nome}`);
+  console.log(`${cidades.count} cidades criadas.`);
 
   // Inserir técnicos
-  const tecnico1 = await prisma.tecnico.create({
-    data: { nome: 'João Silva' },
+  const tecnicos = await prisma.tecnico.createMany({
+    data: [
+      { nome: 'João Silva' },
+      { nome: 'Maria Souza' },
+      { nome: 'Pedro Alves' },
+      { nome: 'Ana Costa' },
+      { nome: 'Lucas Ferreira' }
+    ],
+    skipDuplicates: true, // Garante que não duplica se já existirem
   });
-  const tecnico2 = await prisma.tecnico.create({
-    data: { nome: 'Maria Souza' },
-  });
-  const tecnico3 = await prisma.tecnico.create({
-    data: { nome: 'Pedro Alves' },
-  });
+  console.log(`${tecnicos.count} técnicos criados.`);
 
-  console.log(`Técnicos criados: ${tecnico1.nome}, ${tecnico2.nome}, ${tecnico3.nome}`);
+  console.log('Script de seed concluído com sucesso!');
 }
 
 main()
   .catch(e => {
-    console.error(e);
+    console.error('Erro durante o seed:', e);
     process.exit(1);
   })
   .finally(async () => {
