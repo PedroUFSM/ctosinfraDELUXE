@@ -1,0 +1,9 @@
+[build]
+  base = "frontend/"
+  publish = "frontend/"
+  command = "" # Deixe vazio, pois é um site estático sem build complexo
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
