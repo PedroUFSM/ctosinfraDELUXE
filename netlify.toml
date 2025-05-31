@@ -1,6 +1,6 @@
 [build]
   base = "frontend/"
-  publish = "frontend/"
+  publish = "." # CORRIGIDO AQUI! Agora é apenas um ponto.
   command = "" # Deixe vazio, pois é um site estático sem build complexo
 
 [[redirects]]
