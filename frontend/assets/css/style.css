@@ -111,8 +111,8 @@ h2 {
     color: var(--clr-accent-blue);
     text-align: center;
     margin-bottom: var(--space-m);
-    text-shadow: 0 0 12px var(--clr-glow-strong); /* Stronger neon glow */
-    font-size: clamp(1.8rem, 4vw + 1rem, 2.5rem); /* Fluid typography */
+    text-shadow: 0 0 10px var(--clr-glow-strong); /* Sombra um pouco mais suave */
+    font-size: clamp(1.5rem, 3.5vw + 1rem, 2.2rem); /* Menor e mais fluido */
     line-height: 1.2;
     margin-top: 0;
     letter-spacing: 0.5px;
@@ -130,8 +130,8 @@ p {
     background: linear-gradient(135deg, #00AACC 0%, #007BFF 100%);
     border-radius: var(--radius-xl); /* Matches container for consistency */
     box-shadow: 0 15px 40px var(--sombra-cto-box);
-    padding: var(--space-xl);
-    margin-top: var(--space-xl);
+    padding: var(--space-l) var(--space-xl); /* Padding vertical e horizontal ajustados */
+    margin-top: var(--space-xl); /* Mantém o espaçamento superior */
     text-align: center;
     color: #ffffff;
     transition: transform var(--transition-normal), box-shadow var(--transition-normal);
@@ -195,17 +195,17 @@ p {
 
 .cto-suggestion-box .cto-details {
     background-color: rgba(0, 0, 0, 0.35); /* Darker background for more contrast */
-    padding: var(--space-m);
+    padding: var(--space-s) var(--space-m); /* Padding interno reduzido */
     border-radius: var(--radius-m);
-    margin-top: var(--space-xl);
+    margin-top: var(--space-l); /* Reduzindo espaço acima dos detalhes */
     color: rgba(255, 255, 255, 0.9);
-    font-size: 0.9rem;
-    line-height: 1.5;
-    border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border for definition */
+    font-size: 0.88rem; /* Fonte um pouco menor para compactar */
+    line-height: 1.4; /* Espaçamento de linha ajustado */
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .cto-suggestion-box .cto-details p {
-    margin-bottom: var(--space-xs);
+    margin-bottom: var(--space-xxs); /* Menos espaço entre as linhas de detalhes */
     color: inherit;
 }
 
