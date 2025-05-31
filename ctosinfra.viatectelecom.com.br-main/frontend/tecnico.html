@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Técnico</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Cadastro de Técnico</h2>
+        <form id="formCadastroTecnico">
+            <div class="input-group">
+                <label for="nomeTecnico">Nome do Técnico:</label>
+                <input type="text" id="nomeTecnico" placeholder="Digite o nome do técnico" required>
+            </div>
+            <div class="input-group">
+                <label for="situacaoTecnico">Situação:</label>
+                <select id="situacaoTecnico" required>
+                    <option value="">Selecione a situação</option>
+                    <option value="1">Ativo</option>
+                    <option value="0">Inativo</option>
+                </select>
+            </div>
+            <button type="submit" id="btnSalvarTecnico" class="btn">Salvar</button>
+        </form>
+        <div id="mensagem" class="mensagem"></div>
+    </div>
+
+    <div style="position: absolute; top: 10px; right: 10px;">
+        <button class="btn" onclick="window.location.href='index.html'">Voltar</button>
+    </div>
+
+    <script type="module" src="./assets/js/main.js"></script>
+</body>
+</html>
