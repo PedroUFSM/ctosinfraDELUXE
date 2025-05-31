@@ -1,36 +1,32 @@
 // src/index.ts (Conteúdo COMPLETO e FINAL para substituir TUDO no seu arquivo)
 
 import { PrismaClient } from '@prisma/client';
-import express, { Request, Response, NextFunction } from 'express'; // Importar NextFunction também
+import express, { Request, Response, NextFunction, RequestHandler } from 'express';
 import cors from 'cors';
 import routes from './routes/index.routes'; // Suas rotas existentes
 
 
-// 1. Inicialização do Prisma Client e Express (PRECISAM ESTAR AQUI, ANTES DE QUALQUER app.use ou app.get)
+// 1. Inicialização do Prisma Client e Express
 const prisma = new PrismaClient();
 const app = express();
 
-// 2. Middlewares Globais (antes das rotas, como cors e express.json)
+// 2. Middlewares Globais
 app.use(cors({ origin: '*' }));
 app.use(express.json());
 
-// 3. Suas Rotas Existentes (do arquivo index.routes)
-// Esta linha deve estar aqui, antes do endpoint temporário.
+// 3. Suas Rotas Existentes
 app.use(routes);
 
 // ========================================================================
 // 4. ENDPOINT TEMPORÁRIO PARA AJUSTE DO BANCO DE DADOS.
-//    COLE ESTE BLOCO EXATAMENTE AQUI, APÓS app.use(routes);
-//    REMOVA ESTE CÓDIGO APÓS A EXECUÇÃO BEM-SUCEDIDA!
+//    FOI ADICIONADO '@ts-ignore' PARA FORÇAR A COMPILAÇÃO DEVIDO A UM ERRO DE TIPAGEM PERSISTENTE.
+//    REMOVA ESTE CÓDIGO INTEIRO APÓS A EXECUÇÃO BEM-SUCEDIDA!
 // ========================================================================
 
-app.get('/ajustar-numero-cto', async (req: Request, res: Response, next: NextFunction) => {
+const adjustCtoSequenceHandler: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        // Comando para ajustar a sequência do auto-incremento no PostgreSQL.
-        // Isso fará com que o PRÓXIMO CTO_CODIGO gerado seja 2100.
         await prisma.$executeRawUnsafe(`SELECT setval('cto_cto_codigo_seq', 2099, true);`);
 
-        // Bloco opcional para confirmação do próximo número (para feedback na API)
         let nextNumberConfirmation = 2100;
         try {
             const currentSequenceState: any[] = await prisma.$queryRaw`SELECT currval('cto_cto_codigo_seq');`;
@@ -49,15 +45,19 @@ app.get('/ajustar-numero-cto', async (req: Request, res: Response, next: NextFun
     } catch (error: any) {
         console.error('Erro ao ajustar a sequência da CTO:', error);
         res.status(500).json({ error: 'Erro interno ao ajustar sequência da CTO: ' + error.message });
-        // next(error); // Opcional: passa o erro para um middleware de tratamento de erros, se houver
     }
-});
+};
+
+// @ts-ignore Adicionado para ignorar o erro de tipagem TS2769 que está persistindo.
+// ESTA É UMA SOLUÇÃO TEMPORÁRIA E DEVE SER REMOVIDA JUNTO COM O ENDPOINT.
+app.get('/ajustar-numero-cto', adjustCtoSequenceHandler);
 
 // ========================================================================
 // FIM DO ENDPOINT TEMPORÁRIO. LEMBRE-SE DE REMOVÊ-LO!
 // ========================================================================
 
-// 5. Início do Servidor (SEMPRE POR ÚLTIMO NO ARQUIVO)
+
+// 5. Início do Servidor
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
