@@ -1,26 +1,36 @@
+// src/index.ts (Conteúdo COMPLETO e FINAL para substituir TUDO no seu arquivo)
+
+import { PrismaClient } from '@prisma/client';
+import express, { Request, Response, NextFunction } from 'express'; // Importar NextFunction também
+import cors from 'cors';
+import routes from './routes/index.routes'; // Suas rotas existentes
+
+
+// 1. Inicialização do Prisma Client e Express (PRECISAM ESTAR AQUI, ANTES DE QUALQUER app.use ou app.get)
+const prisma = new PrismaClient();
+const app = express();
+
+// 2. Middlewares Globais (antes das rotas, como cors e express.json)
+app.use(cors({ origin: '*' }));
+app.use(express.json());
+
+// 3. Suas Rotas Existentes (do arquivo index.routes)
+// Esta linha deve estar aqui, antes do endpoint temporário.
+app.use(routes);
+
 // ========================================================================
-// ATENÇÃO: ESTE É UM ENDPOINT TEMPORÁRIO PARA AJUSTE DO BANCO DE DADOS.
-// REMOVA ESTE CÓDIGO APÓS A EXECUÇÃO BEM-SUCEDIDA!
+// 4. ENDPOINT TEMPORÁRIO PARA AJUSTE DO BANCO DE DADOS.
+//    COLE ESTE BLOCO EXATAMENTE AQUI, APÓS app.use(routes);
+//    REMOVA ESTE CÓDIGO APÓS A EXECUÇÃO BEM-SUCEDIDA!
 // ========================================================================
 
-// Supondo que 'app' seja sua instância do Express (ex: const app = express();)
-// Supondo que 'prisma' seja sua instância do PrismaClient (ex: const prisma = new PrismaClient();)
-// Use Request e Response do Express para tipagem, se estiver usando TypeScript rigoroso
-import { Request, Response } from 'express'; // Certifique-se que já estão importados
-
-app.get('/ajustar-numero-cto', async (req: Request, res: Response) => {
+app.get('/ajustar-numero-cto', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        // O nome da sequência é geralmente 'nome_da_tabela_nome_da_coluna_seq' em minúsculas no PostgreSQL.
-        // Com base no seu schema.prisma (model CTO { CTO_CODIGO Int @id @default(autoincrement()) }),
-        // a sequência associada é 'cto_cto_codigo_seq'.
-
-        // Queremos que o PRÓXIMO número auto-incrementado seja 2100.
-        // Para isso, definimos o valor atual da sequência para 2099 e usamos 'true'
-        // (o 'true' indica que '2099' já foi "usado", então o próximo será 2099 + 1 = 2100).
+        // Comando para ajustar a sequência do auto-incremento no PostgreSQL.
+        // Isso fará com que o PRÓXIMO CTO_CODIGO gerado seja 2100.
         await prisma.$executeRawUnsafe(`SELECT setval('cto_cto_codigo_seq', 2099, true);`);
 
-        // Opcional: Para confirmar qual será o próximo valor após a execução
-        // (currval() funciona se setval() ou nextval() já foi chamado na sessão)
+        // Bloco opcional para confirmação do próximo número (para feedback na API)
         let nextNumberConfirmation = 2100;
         try {
             const currentSequenceState: any[] = await prisma.$queryRaw`SELECT currval('cto_cto_codigo_seq');`;
@@ -31,7 +41,6 @@ app.get('/ajustar-numero-cto', async (req: Request, res: Response) => {
             console.warn("Não foi possível obter currval da sequência, assumindo próximo como 2100.");
         }
 
-
         return res.status(200).json({
             message: `Sequência de CTO_CODIGO ajustada com sucesso! O próximo número auto-incrementado será ${nextNumberConfirmation}.`,
             sequencedTo: 2099
@@ -40,9 +49,16 @@ app.get('/ajustar-numero-cto', async (req: Request, res: Response) => {
     } catch (error: any) {
         console.error('Erro ao ajustar a sequência da CTO:', error);
         res.status(500).json({ error: 'Erro interno ao ajustar sequência da CTO: ' + error.message });
+        // next(error); // Opcional: passa o erro para um middleware de tratamento de erros, se houver
     }
 });
 
 // ========================================================================
 // FIM DO ENDPOINT TEMPORÁRIO. LEMBRE-SE DE REMOVÊ-LO!
 // ========================================================================
+
+// 5. Início do Servidor (SEMPRE POR ÚLTIMO NO ARQUIVO)
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Servidor rodando na porta ${PORT}`);
+});
