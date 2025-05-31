@@ -2,9 +2,19 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('Iniciando o script de seed com os DADOS FINAIS...');
+  console.log('Iniciando o script de seed com limpeza de dados...');
 
-  // Inserir cidades com CID_UF e CID_IBGE
+  // Limpar dados existentes em ordem para respeitar chaves estrangeiras
+  try {
+    await prisma.cTO.deleteMany({}); // Delete CTOs first
+    await prisma.cidade.deleteMany({}); // Then Cities
+    await prisma.tecnico.deleteMany({}); // Then Technicians
+    console.log('Dados existentes (CTO, Cidade, Tecnico) deletados.');
+  } catch (e) {
+    console.warn('Não foi possível deletar dados existentes. Isso é esperado se as tabelas estiverem vazias ou se houver problemas de permissão/conexo. Erro:', e.message);
+  }
+
+  // Inserir suas cidades personalizadas
   const cidades = await prisma.cidade.createMany({
     data: [
       { CID_NOME: 'Campo Novo', CID_UF: 'RS', CID_IBGE: '4303803' },
@@ -20,11 +30,11 @@ async function main() {
       { CID_NOME: 'Panambi', CID_UF: 'RS', CID_IBGE: '4313904' },
       { CID_NOME: 'Condor', CID_UF: 'RS', CID_IBGE: '4305604' }
     ],
-    skipDuplicates: true, // Garante que não duplica se já existirem
+    skipDuplicates: true, // Garante que não duplica se houver problema na deleção
   });
   console.log(`${cidades.count} cidades criadas.`);
 
-  // Inserir técnicos com TEC_SITUACAO
+  // Inserir seus técnicos personalizados
   const tecnicos = await prisma.tecnico.createMany({
     data: [
       { TEC_NOME: 'Andre Artur Santos do Nascimento', TEC_SITUACAO: 1 },
@@ -32,7 +42,7 @@ async function main() {
       { TEC_NOME: 'Roger Andrei Santos de Sena', TEC_SITUACAO: 1 },
       { TEC_NOME: 'Emanuel Atílio Vigne de Anhaia', TEC_SITUACAO: 1 }
     ],
-    skipDuplicates: true, // Garante que não duplica se já existirem
+    skipDuplicates: true, // Garante que não duplica se houver problema na deleção
   });
   console.log(`${tecnicos.count} técnicos criados.`);
 
