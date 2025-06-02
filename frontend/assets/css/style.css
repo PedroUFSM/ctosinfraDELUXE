@@ -50,7 +50,7 @@ body {
     font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Priorize Inter, fallback to Segoe UI */
     margin: 0;
     padding: var(--space-l); /* Generous padding on body */
-    background: linear-gradient(135deg, var(--clr-dark-bg) 0%, #151520 100%); /* Subtle gradient for depth */
+    /* REMOVIDO: O background original do body, pois particles.js cuidará do fundo */
     color: var(--clr-text-light);
     line-height: 1.6;
     overflow-x: hidden;
@@ -59,28 +59,12 @@ body {
     align-items: flex-start;
     min-height: 100vh;
     box-sizing: border-box;
-    position: relative; /* For potential background animations */
+    position: relative; /* Mantido para posicionamento de outros elementos */
 }
 
-/* Subtle background animation */
-body::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at 10% 20%, rgba(0, 230, 255, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 90% 80%, rgba(0, 230, 255, 0.05) 0%, transparent 50%);
-    opacity: 0.7;
-    animation: backgroundPulse 15s infinite alternate ease-in-out;
-    z-index: -1; /* Send to back */
-}
-
-@keyframes backgroundPulse {
-    0% { transform: scale(1); }
-    100% { transform: scale(1.1); }
-}
+/* REMOVIDO: O body::before e a animação backgroundPulse foram removidos,
+   pois o particles.js substituirá essa animação de fundo. */
+/* @keyframes backgroundPulse { ... } foi removido */
 
 
 /* --- MAIN CONTAINER --- */
@@ -99,6 +83,8 @@ body::before {
     gap: var(--space-l); /* Consistent spacing between major blocks */
     border: 1px solid rgba(0, 230, 255, 0.1); /* Subtle accent border */
     overflow: hidden; /* Ensures inner elements don't overflow rounded corners */
+    z-index: 1; /* Garante que o container esteja acima do fundo de partículas */
+    position: relative; /* Necessário para o z-index funcionar corretamente */
 }
 
 .container:hover {
@@ -129,7 +115,7 @@ p {
 .cto-suggestion-box {
     background: linear-gradient(135deg, #00AACC 0%, #007BFF 100%);
     border-radius: var(--radius-xl); /* Matches container for consistency */
-    box-shadow: 0 15px 40px var(--sombra-cto-box);
+    box-shadow: 0 15px 40px var(--sombra-cto-box); /* 'sombra-cto-box' precisa ser definida nas suas variáveis se ainda não for */
     padding: var(--space-l) var(--space-xl); /* Padding vertical e horizontal ajustados */
     margin-top: var(--space-xl); /* Mantém o espaçamento superior */
     text-align: center;
@@ -318,7 +304,7 @@ select {
 input[type="text"]:focus,
 input[type="date"]:focus,
 select:focus {
-    border-color: var(--foco-input-borda);
+    border-color: var(--foco-input-borda); /* 'foco-input-borda' e 'foco-input-sombra' precisam ser definidas */
     box-shadow: 0 0 0 4px var(--foco-input-sombra); /* Clear focus glow */
     outline: none;
 }
@@ -412,3 +398,25 @@ select {
         font-size: clamp(2rem, 10vw, 3rem);
     }
 }
+
+
+/* --- INÍCIO: Código adicionado para o fundo interativo (Particles.js) --- */
+#particles-js {
+    position: fixed; /* Fixa o elemento na tela, para cobrir tudo */
+    width: 100%;     /* Ocupa a largura total */
+    height: 100%;    /* Ocupa a altura total */
+    top: 0;          /* Alinha ao topo */
+    left: 0;         /* Alinha à esquerda */
+    /* Este gradiente foi copiado do seu 'body' original, agora ele será o fundo do particles.js */
+    background: linear-gradient(135deg, var(--clr-dark-bg) 0%, #151520 100%);
+    z-index: -2;     /* MUITO IMPORTANTE: Coloca este fundo ANIMADO ATRÁS de TODO o seu conteúdo (que terá z-index 1 ou 0, e -1 para pseudo-elementos) */
+    overflow: hidden; /* Evita barras de rolagem estranhas causadas pelas partículas */
+}
+
+/* Garante que TODO o seu conteúdo existente (container, etc.) fique ACIMA do fundo animado */
+/* O .container já tem z-index: 1, mas essa regra genérica é uma garantia extra. */
+body > *:not(#particles-js) {
+    position: relative; /* Garante que os elementos se posicionem corretamente em relação ao z-index */
+    z-index: 1;         /* Coloca eles à frente do fundo (-2) */
+}
+/* --- FIM: Código adicionado para o fundo interativo (Particles.js) --- */
