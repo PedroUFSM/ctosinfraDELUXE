@@ -1,7 +1,7 @@
-// src/index.ts (Conteúdo COMPLETO e FINAL para substituir TUDO no seu arquivo)
+// src/index.ts (Conteúdo COMPLETO e FINAL após o ajuste da numeração)
 
 import { PrismaClient } from '@prisma/client';
-import express, { Request, Response, NextFunction, RequestHandler } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import routes from './routes/index.routes'; // Suas rotas existentes
 
@@ -17,47 +17,7 @@ app.use(express.json());
 // 3. Suas Rotas Existentes
 app.use(routes);
 
-// ========================================================================
-// 4. ENDPOINT TEMPORÁRIO PARA AJUSTE DO BANCO DE DADOS.
-//    FOI ADICIONADO '@ts-ignore' PARA FORÇAR A COMPILAÇÃO DEVIDO A UM ERRO DE TIPAGEM PERSISTENTE.
-//    REMOVA ESTE CÓDIGO INTEIRO APÓS A EXECUÇÃO BEM-SUCEDIDA!
-// ========================================================================
-
-const adjustCtoSequenceHandler: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        await prisma.$executeRawUnsafe(`SELECT setval('cto_cto_codigo_seq', 2099, true);`);
-
-        let nextNumberConfirmation = 2100;
-        try {
-            const currentSequenceState: any[] = await prisma.$queryRaw`SELECT currval('cto_cto_codigo_seq');`;
-            if (currentSequenceState && currentSequenceState.length > 0 && currentSequenceState[0].currval) {
-                nextNumberConfirmation = parseInt(currentSequenceState[0].currval) + 1;
-            }
-        } catch (e) {
-            console.warn("Não foi possível obter currval da sequência, assumindo próximo como 2100.");
-        }
-
-        return res.status(200).json({
-            message: `Sequência de CTO_CODIGO ajustada com sucesso! O próximo número auto-incrementado será ${nextNumberConfirmation}.`,
-            sequencedTo: 2099
-        });
-
-    } catch (error: any) {
-        console.error('Erro ao ajustar a sequência da CTO:', error);
-        res.status(500).json({ error: 'Erro interno ao ajustar sequência da CTO: ' + error.message });
-    }
-};
-
-// @ts-ignore Adicionado para ignorar o erro de tipagem TS2769 que está persistindo.
-// ESTA É UMA SOLUÇÃO TEMPORÁRIA E DEVE SER REMOVIDA JUNTO COM O ENDPOINT.
-app.get('/ajustar-numero-cto', adjustCtoSequenceHandler);
-
-// ========================================================================
-// FIM DO ENDPOINT TEMPORÁRIO. LEMBRE-SE DE REMOVÊ-LO!
-// ========================================================================
-
-
-// 5. Início do Servidor
+// 4. Início do Servidor (SEMPRE POR ÚLTIMO NO ARQUIVO)
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
