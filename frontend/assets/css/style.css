@@ -69,7 +69,8 @@ body {
 
 /* --- MAIN CONTAINER --- */
 .container {
-    background-color: var(--clr-panel-bg);
+    /* ALTERADO: background-color para ter 0.3 (30%) de opacidade */
+    background-color: rgba(26, 26, 43, 0.3); 
     border-radius: var(--radius-xl); /* Very rounded corners */
     box-shadow: var(--shadow-lg); /* Deeper shadow */
     padding: var(--space-xxl); /* More internal padding */
